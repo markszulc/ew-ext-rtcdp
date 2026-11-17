@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Audience Insights</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="icon" href="data:,">
+    <!-- Experience Workspace / DA App SDK -->
+    <script src="https://da.live/nx/utils/sdk.js" type="module"></script>
+    <!-- Adobe Clean (Spectrum's typeface). Typekit kits are domain-restricted; falls back to the Spectrum font stack. -->
+    <link rel="stylesheet" href="https://use.typekit.net/hah7vzn.css"/>
+    <!-- Adobe Spectrum Web Components are loaded by ./spectrum.js -->
+    <link rel="stylesheet" href="./rtcdp-audiences.css"/>
+    <script src="./rtcdp-audiences.js" type="module"></script>
+  </head>
+  <body>
+    <sp-theme id="theme">
+      <main class="panel">
+        <header class="panel-head">
+          <div class="brand">
+            <sp-icon-user-group size="l" class="brand-icon"></sp-icon-user-group>
+            <div>
+              <h1 class="heading">Audience Insights</h1>
+              <sp-status-light id="source" size="s" variant="neutral">Connecting…</sp-status-light>
+            </div>
+          </div>
+          <sp-action-group quiet size="s" class="head-actions">
+            <sp-action-button id="refresh" quiet size="s" label="Refresh audiences">
+              <sp-icon-refresh slot="icon"></sp-icon-refresh>
+              <sp-tooltip self-managed placement="bottom">Refresh</sp-tooltip>
+            </sp-action-button>
+            <sp-action-button id="settings-toggle" quiet size="s" toggles label="Settings">
+              <sp-icon-settings slot="icon"></sp-icon-settings>
+              <sp-tooltip self-managed placement="bottom">Settings</sp-tooltip>
+            </sp-action-button>
+          </sp-action-group>
+        </header>
+
+        <sp-alert-banner id="standalone" variant="info" open hidden>
+          Not connected to Experience Workspace. Showing a demo page and demo audiences.
+        </sp-alert-banner>
+
+        <section id="settings" class="settings" hidden aria-label="Settings">
+          <h2 class="heading heading-xs">Settings</h2>
+          <sp-field-label for="set-mode" size="s">Data source</sp-field-label>
+          <sp-picker id="set-mode" size="s" label="Data source">
+            <sp-menu-item value="proxy">Real-Time CDP (App Builder proxy)</sp-menu-item>
+            <sp-menu-item value="demo">Demo data</sp-menu-item>
+          </sp-picker>
+
+          <div data-modes="proxy">
+            <sp-field-label for="set-proxyUrl" size="s">Proxy URL</sp-field-label>
+            <sp-textfield id="set-proxyUrl" size="s" placeholder="https://…adobeio-static.net/api/v1/web/rtcdp-audiences/audiences"></sp-textfield>
+          </div>
+          <div data-modes="proxy">
+            <sp-field-label for="set-sandbox" size="s">Sandbox</sp-field-label>
+            <sp-textfield id="set-sandbox" size="s" placeholder="prod"></sp-textfield>
+          </div>
+          <sp-help-text size="s">Admins can set defaults for everyone in an rtcdp sheet in the site config.</sp-help-text>
+          <sp-button-group class="settings-actions" size="s">
+            <sp-button id="settings-cancel" size="s" variant="secondary" treatment="outline">Cancel</sp-button>
+            <sp-button id="settings-save" size="s" variant="accent">Save</sp-button>
+          </sp-button-group>
+        </section>
+
+        <section id="page-context" class="page-context" aria-label="Current page"></section>
+
+        <sp-tabs id="tabs" selected="relevant" size="s" quiet compact label="Audience views">
+          <sp-tab value="relevant" label="For this page"></sp-tab>
+          <sp-tab value="all" label="All audiences"></sp-tab>
+        </sp-tabs>
+
+        <div id="toolbar" class="toolbar">
+          <sp-search id="search" size="s" quiet label="Filter audiences" placeholder="Filter audiences"></sp-search>
+          <sp-picker id="sort" size="s" quiet label="Sort" value="relevance">
+            <sp-menu-item value="relevance">Relevance</sp-menu-item>
+            <sp-menu-item value="size">Size</sp-menu-item>
+            <sp-menu-item value="updated">Recently updated</sp-menu-item>
+            <sp-menu-item value="name">Name</sp-menu-item>
+          </sp-picker>
+        </div>
+        <p id="summary" class="summary" aria-live="polite"></p>
+
+        <div id="list" class="list"></div>
+
+        <sp-toast id="toast" timeout="4000"></sp-toast>
+      </main>
+    </sp-theme>
+  </body>
+</html>

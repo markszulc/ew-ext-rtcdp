@@ -1,0 +1,23 @@
+application:
+  runtimeManifest:
+    packages:
+      rtcdp-audiences:
+        license: Apache-2.0
+        actions:
+          audiences:
+            function: actions/audiences/index.js
+            web: 'yes'
+            runtime: nodejs:20
+            inputs:
+              AEP_CLIENT_ID: $AEP_CLIENT_ID
+              AEP_CLIENT_SECRET: $AEP_CLIENT_SECRET
+              AEP_ORG_ID: $AEP_ORG_ID
+              AEP_SCOPES: $AEP_SCOPES
+              ALLOWED_SANDBOXES: $ALLOWED_SANDBOXES
+              ALLOWED_ORIGINS: $ALLOWED_ORIGINS
+              ALLOWED_CLIENT_IDS: $ALLOWED_CLIENT_IDS
+            annotations:
+              # The action validates the caller's IMS token itself (see index.js), so it can
+              # accept the token Experience Workspace issues to the panel.
+              require-adobe-auth: false
+              final: true

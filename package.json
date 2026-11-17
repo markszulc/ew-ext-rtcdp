@@ -1,0 +1,11 @@
+{
+  "name": "ew-ext-rtcdp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Experience Workspace side-panel plugin showing Real-Time CDP audience insights for the page being edited.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "start": "python3 -m http.server 3000"
+  }
+}

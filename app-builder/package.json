@@ -1,0 +1,12 @@
+{
+  "name": "rtcdp-audiences-proxy",
+  "version": "0.1.0",
+  "private": true,
+  "description": "App Builder proxy for the RTCDP Audience Insights Experience Workspace panel",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "deploy": "aio app deploy"
+  }
+}

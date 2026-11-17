@@ -1,0 +1,150 @@
+/*
+ * Layout only. Colour, type, radius and spacing come from Spectrum 2 tokens exposed by <sp-theme>;
+ * every visual control is a Spectrum Web Component. Fallbacks keep it legible before the theme loads.
+ */
+html, body { margin: 0; height: 100%; }
+
+sp-theme {
+  display: block;
+  min-height: 100%;
+  background: var(--spectrum-background-base-color, #fff);
+  color: var(--spectrum-body-color, #292929);
+  font-family: var(--spectrum-sans-font-family-stack, adobe-clean, 'Source Sans Pro', system-ui, sans-serif);
+  font-size: var(--spectrum-body-size-s, 14px);
+  line-height: var(--spectrum-body-line-height, 1.5);
+  -webkit-font-smoothing: antialiased;
+}
+
+[hidden] { display: none !important; }
+
+/* Spectrum typography roles (heading / body / detail / code) */
+.heading {
+  margin: 0;
+  color: var(--spectrum-heading-color, #131313);
+  font-size: var(--spectrum-heading-size-s, 18px);
+  font-weight: var(--spectrum-heading-sans-serif-font-weight, 700);
+  line-height: var(--spectrum-heading-line-height, 1.3);
+}
+.heading-xs { font-size: var(--spectrum-heading-size-xs, 16px); }
+.heading-xxs { font-size: var(--spectrum-heading-size-xxs, 14px); }
+.body {
+  margin: 0;
+  font-size: var(--spectrum-body-size-xs, 12px);
+  line-height: var(--spectrum-body-line-height, 1.5);
+}
+.subdued { color: var(--spectrum-neutral-subdued-content-color-default, #505050); }
+.detail {
+  color: var(--spectrum-detail-color, #131313);
+  font-size: var(--spectrum-detail-size-s, 11px);
+  font-weight: var(--spectrum-detail-sans-serif-font-weight, 700);
+  letter-spacing: var(--spectrum-detail-letter-spacing, .06em);
+  text-transform: uppercase;
+}
+code {
+  font-family: var(--spectrum-code-font-family-stack, 'Source Code Pro', monospace);
+  font-size: var(--spectrum-code-size-xs, 12px);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spectrum-spacing-200, 12px);
+  padding: var(--spectrum-spacing-300, 16px);
+  box-sizing: border-box;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* Header */
+.panel-head { display: flex; justify-content: space-between; align-items: center; }
+.brand { display: flex; gap: var(--spectrum-spacing-100, 8px); align-items: center; }
+.brand-icon { color: var(--spectrum-accent-content-color-default, #3b63fb); }
+.panel-head sp-status-light { padding-block: 0; min-block-size: auto; }
+
+sp-alert-banner { border-radius: var(--spectrum-corner-radius-100, 8px); }
+
+/* Settings + page context: Spectrum layer-1 containers */
+.settings, .page-context {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spectrum-spacing-100, 8px);
+  padding: var(--spectrum-spacing-300, 16px);
+  border-radius: var(--spectrum-corner-radius-200, 10px);
+  background: var(--spectrum-background-layer-1-color, #f8f8f8);
+}
+.settings { gap: var(--spectrum-spacing-75, 4px); }
+.settings sp-picker, .settings sp-textfield { width: 100%; }
+.settings > div { display: flex; flex-direction: column; }
+.settings-actions { justify-content: flex-end; margin-top: var(--spectrum-spacing-100, 8px); }
+
+.page-row { display: flex; gap: var(--spectrum-spacing-100, 8px); align-items: baseline; min-width: 0; }
+.page-path {
+  font-family: var(--spectrum-code-font-family-stack, monospace);
+  font-size: var(--spectrum-code-size-xs, 12px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.page-context sp-divider { margin-block: var(--spectrum-spacing-75, 4px); }
+
+/* Toolbar */
+.toolbar { display: flex; gap: var(--spectrum-spacing-100, 8px); align-items: center; }
+.toolbar sp-search { flex: 1; min-width: 0; }
+.toolbar sp-search::part(textfield) { width: 100%; }
+.toolbar sp-picker { flex: none; width: 140px; }
+.summary {
+  margin: 0;
+  min-height: 1lh;
+  font-size: var(--spectrum-body-size-xs, 12px);
+  color: var(--spectrum-neutral-subdued-content-color-default, #505050);
+}
+
+/* Audience cards: Spectrum 2 card surface (layer 2, border, large radius) */
+.list { display: flex; flex-direction: column; gap: var(--spectrum-spacing-200, 12px); padding-bottom: 64px; }
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spectrum-spacing-100, 8px);
+  padding: var(--spectrum-spacing-300, 16px);
+  border: var(--spectrum-border-width-100, 1px) solid var(--spectrum-gray-200, #e1e1e1);
+  border-radius: var(--spectrum-corner-radius-200, 10px);
+  background: var(--spectrum-background-layer-2-color, #fff);
+}
+.card-head { display: flex; justify-content: space-between; gap: var(--spectrum-spacing-100, 8px); align-items: flex-start; }
+.card-head sp-badge { flex: none; }
+.size { display: flex; gap: var(--spectrum-spacing-75, 4px); align-items: baseline; }
+.card sp-meter { width: 100%; }
+.topic-group { display: flex; flex-direction: column; gap: var(--spectrum-spacing-75, 4px); }
+.tip { display: flex; gap: var(--spectrum-spacing-75, 4px); align-items: flex-start; }
+.tip sp-icon-clock { flex: none; margin-top: 2px; color: var(--spectrum-neutral-subdued-content-color-default, #505050); }
+.card-meta { display: flex; flex-wrap: wrap; gap: var(--spectrum-spacing-75, 4px) var(--spectrum-spacing-200, 12px); align-items: center; }
+.card-meta sp-status-light { padding-block: 0; min-block-size: auto; }
+.card sp-accordion { margin-inline: calc(-1 * var(--spectrum-spacing-300, 16px)); }
+
+dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--spectrum-spacing-75, 4px) var(--spectrum-spacing-200, 12px);
+  margin: 0;
+}
+dt { color: var(--spectrum-neutral-subdued-content-color-default, #505050); }
+dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.pql {
+  display: block;
+  padding: var(--spectrum-spacing-75, 4px) var(--spectrum-spacing-100, 8px);
+  border-radius: var(--spectrum-corner-radius-75, 4px);
+  background: var(--spectrum-background-layer-1-color, #f8f8f8);
+  white-space: pre-wrap;
+}
+
+/* States */
+.center { display: flex; flex-direction: column; align-items: center; gap: var(--spectrum-spacing-100, 8px); padding: 32px 12px; }
+sp-illustrated-message { padding-block: var(--spectrum-spacing-400, 24px); }
+
+sp-toast {
+  position: fixed;
+  inset-inline: var(--spectrum-spacing-200, 12px);
+  bottom: var(--spectrum-spacing-200, 12px);
+  z-index: 10;
+}
+sp-toast:not([open]) { display: none; }

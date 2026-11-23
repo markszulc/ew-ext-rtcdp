@@ -1,6 +1,6 @@
 # RTCDP Audience Insights – Experience Workspace side panel
 
-A standalone side-panel extension for Experience Workspace (da.live). While you edit a page, it shows which Adobe Real-Time CDP audiences the page speaks to and what those audiences care about. The panel uses Spectrum Web Components with the Spectrum 2 theme. Audience data comes from a small App Builder proxy included in this project.
+A standalone side-panel extension for Adobe Experience Manager - Experience Workspace (da.live). While you edit a page, it shows which Adobe Real-Time CDP audiences the page speaks to and what those audiences care about. 
 
 ## What authors see
 

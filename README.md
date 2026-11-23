@@ -4,6 +4,8 @@ A standalone side-panel extension for Experience Workspace (da.live). While you 
 
 ## What authors see
 
+<img src="docs/audience-insights-panel.png" alt="Audience Insights panel in Experience Workspace, showing page topics, gap topics and ranked audience cards with a Learn more with Coworker button" width="360">
+
 - **Page topics**: key terms from the page's title, headings, metadata and body. They update live as you type.
 - **Matching audiences also care about**: topics that the page's best-matching audiences care about but the page doesn't mention yet.
 - **Audience cards**, ranked by how well they match the page. Each card shows:

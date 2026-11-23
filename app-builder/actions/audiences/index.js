@@ -135,7 +135,14 @@ async function main(params) {
     });
     if (!resp.ok) {
       const status = [401, 403, 404].includes(resp.status) ? resp.status : 502;
-      return respond(status, { error: `Experience Platform returned ${resp.status}` });
+      let detail = '';
+      try {
+        const err = await resp.json();
+        detail = err.detail || err.title || err.message || err.error_description || '';
+      } catch { /* non-JSON body */ }
+      return respond(status, {
+        error: `Experience Platform returned ${resp.status}${detail ? `: ${String(detail).slice(0, 300)}` : ''}`,
+      });
     }
     const json = await resp.json();
     return respond(200, {

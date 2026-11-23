@@ -119,7 +119,11 @@ sp-alert-banner { border-radius: var(--spectrum-corner-radius-100, 8px); }
 .tip sp-icon-clock { flex: none; margin-top: 2px; color: var(--spectrum-neutral-subdued-content-color-default, #505050); }
 .card-meta { display: flex; flex-wrap: wrap; gap: var(--spectrum-spacing-75, 4px) var(--spectrum-spacing-200, 12px); align-items: center; }
 .card-meta sp-status-light { padding-block: 0; min-block-size: auto; }
-.card sp-accordion { margin-inline: calc(-1 * var(--spectrum-spacing-300, 16px)); }
+.card-meta .details { margin-inline-start: auto; }
+.details-popover { max-inline-size: min(320px, calc(100vw - 24px)); }
+.details-popover dl { padding: var(--spectrum-spacing-200, 12px); }
+.details-popover code { font-size: var(--spectrum-font-size-75, 12px); }
+.card .coworker { align-self: stretch; }
 
 dl {
   display: grid;

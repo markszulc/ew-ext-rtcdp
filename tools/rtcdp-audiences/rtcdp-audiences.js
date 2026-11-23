@@ -8,6 +8,7 @@ import {
 } from './relevance.js';
 import { DEMO_PAGE_HTML } from './demo-data.js';
 import loadSpectrum from './spectrum.js';
+import { coworkerPrompt } from './coworker.js';
 
 const SDK_TIMEOUT = 3000;
 
@@ -196,9 +197,11 @@ function cardHtml({
       <sp-status-light size="s" variant="${lightVariant}">${esc(lightLabel)}</sp-status-light>
       ${evalInfo ? `<sp-badge size="s" variant="${evalInfo.variant}" title="${esc(evalInfo.hint)}">${evalInfo.label}</sp-badge>` : ''}
       <span class="body subdued">Updated ${relativeTime(a.updated)}</span>
-    </div>
-    <sp-accordion size="s" allow-multiple>
-      <sp-accordion-item label="Details">
+      <overlay-trigger class="details" triggered-by="hover" placement="bottom-end" offset="4">
+        <sp-action-button slot="trigger" size="s" quiet label="Audience details">
+          <sp-icon-info slot="icon"></sp-icon-info>
+        </sp-action-button>
+        <sp-popover slot="hover-content" class="details-popover">
         <dl class="body">
           <dt>Audience ID</dt><dd><code>${esc(a.audienceId)}</code></dd>
           <dt>Origin</dt><dd>${esc(a.origin.replace(/_/g, ' ').toLowerCase())}</dd>
@@ -207,8 +210,13 @@ function cardHtml({
           ${a.labels.length ? `<dt>Data usage labels</dt><dd>${a.labels.map(esc).join(', ')}</dd>` : ''}
           ${a.expression ? `<dt>Rule (PQL)</dt><dd><code class="pql">${esc(a.expression)}</code></dd>` : ''}
         </dl>
-      </sp-accordion-item>
-    </sp-accordion>
+        </sp-popover>
+      </overlay-trigger>
+    </div>
+    <sp-button size="s" variant="accent" class="coworker" data-action="coworker"
+      title="${esc(coworkerPrompt(a.name))}">
+      <sp-icon-chat slot="icon"></sp-icon-chat>Learn more with Coworker
+    </sp-button>
     <sp-action-group size="s" class="card-actions">
       <sp-action-button size="s" data-action="copy-brief" label="Copy audience brief">
         <sp-icon-text slot="icon"></sp-icon-text>Copy brief
@@ -383,6 +391,16 @@ async function onListClick(e) {
     toast(await copyText(item.audience.audienceId) ? 'Audience ID copied' : 'Copy blocked by the browser');
   } else if (action === 'copy-brief') {
     toast(await copyText(buildBrief(item)) ? 'Audience brief copied' : 'Copy blocked by the browser');
+  } else if (action === 'coworker') {
+    const prompt = coworkerPrompt(item.audience.name);
+    if (state.sdk?.actions?.setPrompt) {
+      // Opens the Experience Workspace Coworker chat panel with the prompt filled in, ready to send.
+      state.sdk.actions.setPrompt(prompt);
+    } else {
+      toast(await copyText(prompt)
+        ? 'Coworker is only available in Experience Workspace. Prompt copied.'
+        : 'Coworker is only available in Experience Workspace.', 'info');
+    }
   }
 }
 

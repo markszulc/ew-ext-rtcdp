@@ -10,11 +10,12 @@ A standalone side-panel extension for Experience Workspace (da.live). While you 
   - the match strength, description and profile count
   - **Cares about**: the audience's distinctive topics, with ✓ on the ones already on the page and dashed outlines on the ones missing
   - a timing tip: Edge (real time), Streaming (minutes) or Batch (daily), and what that means for the copy
-  - status, last update and collapsed technical details (ID, merge policy, labels, rule)
+  - status and last update, plus an ⓘ icon that shows technical details (ID, merge policy, labels, rule) in a popover on hover or keyboard focus
+  - **Learn more with Coworker**: opens the Coworker chat (SDK `actions.setPrompt`) with the prompt filled in: *Tell me more about the CDP Audience '&lt;singular audience name&gt;' including the persona rules from Experience Context.* Outside Experience Workspace the prompt is copied to the clipboard instead.
   - **Copy brief** (copies a plain-text audience brief) and **Copy ID**
 - The **For this page** and **All audiences** tabs, a filter, and sorting by relevance, size, recency or name.
 
-Opened outside Experience Workspace, the panel runs on a demo page and 14 demo audiences.
+Opened outside Experience Workspace, the panel runs on a demo page and 15 demo audiences.
 
 ## Project layout
 
@@ -26,6 +27,7 @@ tools/rtcdp-audiences/        the panel (static files, no build step)
   spectrum.js                 loads Spectrum Web Components, workflow icons + Spectrum 2 theme
   rtcdp-api.js                config + proxy client
   relevance.js                page ⇄ audience matching, topics and gaps
+  coworker.js                 Coworker prompt + audience name singularisation
   demo-data.js
 app-builder/                  App Builder project with the `audiences` proxy action
 test/                         node:test unit tests (`npm test`)

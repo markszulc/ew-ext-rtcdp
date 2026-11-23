@@ -15,7 +15,7 @@ const FRAGMENTS = [
 
 // Spectrum workflow icons are not part of the elements bundle, so they are loaded individually.
 export const ICONS = [
-  'user-group', 'refresh', 'settings', 'copy', 'text', 'checkmark-circle', 'add-circle', 'clock', 'info',
+  'user-group', 'refresh', 'settings', 'copy', 'text', 'checkmark-circle', 'add-circle', 'clock', 'info', 'chat',
 ];
 
 function loadIcons() {

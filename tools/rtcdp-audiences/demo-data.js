@@ -153,6 +153,15 @@ export const DEMO_AUDIENCES = [
     updatedDaysAgo: 0,
   }),
   audience({
+    id: 'a1f3c2d0-0015-4c1e-9a10-fitnessfuel15',
+    name: 'Fitness Fuel Seekers',
+    description: 'Active, health-focused customers who buy protein coffee, cold brew or low-sugar espresso drinks before or after a workout.',
+    pql: 'productListItems.tags contains_any ["protein coffee", "pre-workout", "low sugar", "cold brew"] and fitness.appConnected = true occurs in last 60 days',
+    profiles: 71584,
+    evaluation: 'streaming',
+    updatedDaysAgo: 0,
+  }),
+  audience({
     id: 'a1f3c2d0-0014-4c1e-9a10-draftaud0014',
     name: 'Single-Origin Explorers (draft)',
     description: 'Tried three or more single-origin coffees from different countries.',

@@ -79,7 +79,8 @@ async function readError(resp) {
   let detail = '';
   try {
     const body = await resp.json();
-    detail = body.detail || body.title || body.message || body.error_description || '';
+    detail = body.detail || body.title || body.message || body.error_description
+      || (typeof body.error === 'string' ? body.error : '');
   } catch { /* non-JSON body */ }
   const hints = {
     401: 'The proxy rejected your Experience Workspace sign-in. Try reloading Experience Workspace.',

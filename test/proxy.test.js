@@ -54,9 +54,13 @@ test('proxies audiences with a service token and trims fields', async () => {
 test('rejects missing or invalid caller tokens before calling AEP', async () => {
   const noAuth = await main({ ...PARAMS, __ow_headers: {} });
   assert.equal(noAuth.statusCode, 401);
+  assert.match(noAuth.body.error, /Missing Adobe IMS token/);
+  const notJwt = await main({ ...PARAMS, __ow_headers: { authorization: 'Bearer abc' } });
+  assert.match(notJwt.body.error, /not an Adobe IMS access token/);
   globalThis.fetch = async () => json({ valid: false });
   const invalid = await main(PARAMS);
   assert.equal(invalid.statusCode, 401);
+  assert.match(invalid.body.error, /invalid or expired/);
 });
 
 test('enforces sandbox, client ID and origin allow-lists', async () => {

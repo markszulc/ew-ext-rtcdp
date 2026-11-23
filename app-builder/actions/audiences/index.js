@@ -18,13 +18,13 @@ let serviceToken = null; // { value, expires }
 
 const list = (value) => String(value || '').split(',').map((s) => s.trim()).filter(Boolean);
 
-function respond(statusCode, body, origin) {
+// Adobe I/O Runtime adds `Access-Control-Allow-Origin: *` to web action responses. Setting it here
+// too produces "*,*", which browsers reject. ALLOWED_ORIGINS is enforced server-side below.
+function respond(statusCode, body) {
   return {
     statusCode,
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': origin || '*',
-      Vary: 'Origin',
       'Cache-Control': statusCode === 200 ? 'private, max-age=60' : 'no-store',
     },
     body,
@@ -96,22 +96,24 @@ async function main(params) {
   if (allowedOrigins.length && !allowedOrigins.includes(origin)) {
     return respond(403, { error: 'Origin not allowed' });
   }
-  const allowOrigin = allowedOrigins.length ? origin : '*';
 
   if (!params.AEP_CLIENT_ID || !params.AEP_CLIENT_SECRET || !params.AEP_ORG_ID) {
-    return respond(500, { error: 'Proxy is missing AEP_CLIENT_ID, AEP_CLIENT_SECRET or AEP_ORG_ID' }, allowOrigin);
+    return respond(500, { error: 'Proxy is missing AEP_CLIENT_ID, AEP_CLIENT_SECRET or AEP_ORG_ID' });
   }
 
   const auth = headers.authorization || '';
   const callerToken = auth.startsWith('Bearer ') ? auth.slice(7) : '';
-  if (!callerToken || !(await validateCaller(callerToken, params).catch(() => false))) {
-    return respond(401, { error: 'Missing or invalid Adobe IMS token' }, allowOrigin);
+  if (!callerToken) {
+    return respond(401, { error: 'Missing Adobe IMS token (expected "Authorization: Bearer <token>")' });
+  }
+  if (!(await validateCaller(callerToken, params).catch(() => false))) {
+    return respond(401, { error: 'Invalid or expired Adobe IMS token, or its client ID is not allowed' });
   }
 
   const sandbox = String(params.sandbox || 'prod');
   const allowedSandboxes = list(params.ALLOWED_SANDBOXES || 'prod');
   if (!allowedSandboxes.includes(sandbox)) {
-    return respond(403, { error: `Sandbox "${sandbox}" is not allowed` }, allowOrigin);
+    return respond(403, { error: `Sandbox "${sandbox}" is not allowed` });
   }
   const limit = Math.min(100, Math.max(1, parseInt(params.limit, 10) || 100));
   const start = Math.max(0, parseInt(params.start, 10) || 0);
@@ -133,15 +135,15 @@ async function main(params) {
     });
     if (!resp.ok) {
       const status = [401, 403, 404].includes(resp.status) ? resp.status : 502;
-      return respond(status, { error: `Experience Platform returned ${resp.status}` }, allowOrigin);
+      return respond(status, { error: `Experience Platform returned ${resp.status}` });
     }
     const json = await resp.json();
     return respond(200, {
       children: (json.children || []).map(trim),
       _page: { totalCount: json._page?.totalCount, next: json._page?.next },
-    }, allowOrigin);
+    });
   } catch (e) {
-    return respond(502, { error: e.message }, allowOrigin);
+    return respond(502, { error: e.message });
   }
 }
 

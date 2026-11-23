@@ -56,11 +56,12 @@ test('rejects missing or invalid caller tokens before calling AEP', async () => 
   assert.equal(noAuth.statusCode, 401);
   assert.match(noAuth.body.error, /Missing Adobe IMS token/);
   const notJwt = await main({ ...PARAMS, __ow_headers: { authorization: 'Bearer abc' } });
-  assert.match(notJwt.body.error, /not an Adobe IMS access token/);
+  assert.equal(notJwt.statusCode, 401);
+  assert.match(notJwt.body.error, /Invalid or expired/);
   globalThis.fetch = async () => json({ valid: false });
   const invalid = await main(PARAMS);
   assert.equal(invalid.statusCode, 401);
-  assert.match(invalid.body.error, /invalid or expired/);
+  assert.match(invalid.body.error, /Invalid or expired/);
 });
 
 test('enforces sandbox, client ID and origin allow-lists', async () => {
@@ -69,6 +70,6 @@ test('enforces sandbox, client ID and origin allow-lists', async () => {
   assert.equal((await main({ ...PARAMS, ALLOWED_ORIGINS: 'https://elsewhere' })).statusCode, 403);
   const ok = await main({ ...PARAMS, ALLOWED_ORIGINS: 'https://tools.example' });
   assert.equal(ok.statusCode, 200);
-  assert.equal(ok.headers['Access-Control-Allow-Origin'], 'https://tools.example');
+  assert.equal(ok.headers['Access-Control-Allow-Origin'], undefined, 'Runtime adds the CORS header itself');
   assert.ok(!calls.some((c) => c.url.includes('/validate_token/') && c.url.includes('other')));
 });

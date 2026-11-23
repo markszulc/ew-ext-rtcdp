@@ -19,6 +19,20 @@ A standalone side-panel extension for Adobe Experience Manager - Experience Work
 
 Opened outside Experience Workspace, the panel runs on a demo page and 15 demo audiences.
 
+## Try it with demo data (no hosting needed)
+
+The panel is published on GitHub Pages, so you can add it to your own Experience Workspace site without deploying anything:
+
+1. **Preview it standalone:** open <https://markszulc.github.io/ew-ext-rtcdp/tools/rtcdp-audiences/rtcdp-audiences.html>. It runs on a demo page with demo audiences.
+2. **Add it to your site:** open `https://da.live/config#/{org}/{site}`. On the **library** sheet, add a row with title `Audiences` and this `path`:
+   ```
+   https://markszulc.github.io/ew-ext-rtcdp/tools/rtcdp-audiences/rtcdp-audiences.html
+   ```
+   Save the config.
+3. **Open a page** in Experience Workspace and choose **Audiences** in the side panel. With no `rtcdp` sheet configured, the panel analyses your real page against the 15 demo audiences. If your site already has a `proxyUrl` configured, click **Use demo data**, or set **Data source** to **Demo data** in ⚙ Settings.
+
+To use live Real-Time CDP audiences, follow steps 1–3 below.
+
 ## Project layout
 
 ```
